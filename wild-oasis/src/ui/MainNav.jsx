@@ -1,12 +1,14 @@
+import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { HiOutlineCalendarDays, HiOutlineHome } from "react-icons/hi2";
 
 const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
 `;
-
-const Link = styled.a`
+//styled() can apply styles to 3rd party library elements
+const SNavLink = styled(NavLink)`
   &:link,
   &:visited {
     display: flex;
@@ -44,3 +46,24 @@ const Link = styled.a`
     color: var(--color-brand-600);
   }
 `;
+
+export default function MainNav() {
+  return (
+    <nav>
+      <NavList>
+        <li>
+          <SNavLink to="/dashboard">
+            <HiOutlineHome />
+            <span>Home</span>
+          </SNavLink>
+        </li>
+        <li>
+          <SNavLink to="/bookings">
+            <HiOutlineCalendarDays />
+            <span>Bookings</span>
+          </SNavLink>
+        </li>
+      </NavList>
+    </nav>
+  );
+}
