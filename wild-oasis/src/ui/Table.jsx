@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { useContext } from "react";
+import { createContext, useContext } from "react";
 import styled from "styled-components";
 
 const StyledTable = styled.div`
@@ -60,9 +60,8 @@ const Empty = styled.p`
   text-align: center;
   margin: 2.4rem;
 `;
-
+const TableContext = createContext();
 export default function Table({ columns, children }) {
-  const TableContext = useContext();
   return (
     <TableContext.Provider value={{ columns }}>
       <StyledTable role="table">{children}</StyledTable>
@@ -70,7 +69,7 @@ export default function Table({ columns, children }) {
   );
 }
 function Header({ children }) {
-  const { columns } = useContext();
+  const { columns } = useContext(TableContext);
   return (
     <StyledHeader role="row" columns={columns} as="header">
       {children}
@@ -78,12 +77,12 @@ function Header({ children }) {
   );
 }
 function Body({ data, render }) {
-  const { columns } = useContext();
+  const { columns } = useContext(TableContext);
   if (!data.length) return <Empty>{"No data to be shown"}</Empty>;
   return <StyledBody columns={columns}>{data.map(render)}</StyledBody>;
 }
 function Row({ children }) {
-  const { columns } = useContext();
+  const { columns } = useContext(TableContext);
   return <StyledRow columns={columns}>{children}</StyledRow>;
 }
 Table.Row = Row;

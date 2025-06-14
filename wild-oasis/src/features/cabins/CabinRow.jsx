@@ -101,7 +101,7 @@ export default function CabinRow({ cabin }) {
                 >
                   Duplicate
                 </Menus.Button>
-                <Modal.Open name="edit">
+                <Modal.Open opens="edit">
                   <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
                 </Modal.Open>
                 <Modal.Open opens="delete">
@@ -114,7 +114,7 @@ export default function CabinRow({ cabin }) {
               </Modal.Window>
 
               {/* wrappercomponent */}
-              <Modal.Window opens="delete">
+              <Modal.Window name="delete">
                 <ConfirmDelete
                   resourceName="cabins"
                   onConfirm={() => deleteCabin(cabinId)}

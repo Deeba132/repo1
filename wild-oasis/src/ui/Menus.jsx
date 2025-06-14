@@ -73,7 +73,7 @@ export default function Menus({ children }) {
   const open = setOpenId;
   return (
     <MenusContext.Provider
-      values={{ openId, open, close, position, setPosition }}
+      value={{ openId, open, close, position, setPosition }}
     >
       {children}
     </MenusContext.Provider>
