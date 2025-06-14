@@ -1,46 +1,80 @@
-// import styled from "styled-components";
+/* eslint-disable react/prop-types */
 import Input from "../../ui/Input";
 import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import { useForm } from "react-hook-form";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCabin } from "../../services/apiCabins";
+
 import toast from "react-hot-toast";
 import FormRow from "../../ui/Formrow";
+import useCreate from "../../hooks/useCreate";
+import useEdit from "../../hooks/useEdit";
 
-function CreateCabinForm() {
+function CreateCabinForm({ cabinEdit = {}, onClose }) {
+  const { id: editId, ...editValues } = cabinEdit;
+  const isEditsession = Boolean(editId);
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
     getValues,
-  } = useForm();
-
-  const client = useQueryClient();
-  const { mutate, isLoading } = useMutation({
-    mutationFn: createCabin,
-    onSuccess: () => {
-      toast.success("New cabin successfully created");
-      client.invalidateQueries({ queryKey: ["cabins"] });
-      reset();
-    },
-    onError: (err) => toast.error(err.message),
+  } = useForm({
+    defaultValues: isEditsession ? editValues : {},
   });
 
+  const { createMutate, createload } = useCreate();
+
+  const { Editmutate, editload } = useEdit();
+
+  const isWorking = createload || editload;
+
   function onsubmit(data) {
-    mutate({ ...data, image: data.image[0] });
-    console.log(data);
+    // Ensure image exists before accessing
+    if (!data.image) {
+      toast.error("Please upload an image.");
+      return;
+    }
+
+    const image = typeof data.image === "string" ? data.image : data.image[0];
+
+    if (isEditsession) {
+      Editmutate(
+        { newCabinData: { ...data, image }, id: editId },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            reset();
+            onClose?.();
+          },
+        }
+      );
+    } else {
+      createMutate(
+        { ...data, image: image },
+        {
+          onSuccess: (data) => {
+            console.log(data);
+            reset();
+            onClose?.();
+          },
+        }
+      );
+    }
+
+    console.log("Form Data Submitted:", data);
   }
 
   function onerror(errors) {
-    console.log(errors);
+    console.log("Form Validation Errors:", errors);
   }
 
   return (
-    <Form onSubmit={handleSubmit(onsubmit, onerror)}>
+    <Form
+      onSubmit={handleSubmit(onsubmit, onerror)}
+      type={onClose ? "modal" : "regular"}
+    >
       <FormRow label="Cabin Name" error={errors?.name?.message}>
         <Input
           type="text"
@@ -95,16 +129,18 @@ function CreateCabinForm() {
           id="image"
           accept="image/*"
           type="file"
-          {...register("image", { required: "This field is required" })}
+          {...register("image", {
+            required: isEditsession ? false : "This field is required",
+          })}
         />
       </FormRow>
 
       <FormRow>
-        <Button variation="secondary" type="reset">
+        <Button variation="secondary" type="reset" onClick={() => onClose?.()}>
           Cancel
         </Button>
-        <Button size="medium" variation="primary" disabled={isLoading}>
-          Add cabin
+        <Button size="medium" variation="primary" disabled={isWorking}>
+          {isEditsession ? "Edit cabin" : "Add new Cabin"}
         </Button>
       </FormRow>
     </Form>
