@@ -3,6 +3,7 @@ import { HiXMark } from "react-icons/hi2";
 import styled from "styled-components";
 import { createPortal } from "react-dom";
 import { cloneElement, createContext, useContext, useState } from "react";
+import useClickOutside from "../hooks/useClickOutside";
 
 const StyledModal = styled.div`
   position: fixed;
@@ -79,10 +80,11 @@ function Open({ children, opens: WindowOpens }) {
 
 function Window({ children, name }) {
   const { openName, close } = useContext(ModalContext);
+  const ref = useClickOutside(close);
   if (name !== openName) return null;
   return createPortal(
     <Overlay>
-      <StyledModal>
+      <StyledModal ref={ref}>
         <Button onClick={close}>
           <HiXMark />
         </Button>
@@ -94,3 +96,8 @@ function Window({ children, name }) {
 }
 Modal.Open = Open;
 Modal.Window = Window;
+// ParentComponentname.WrapperComponentname
+// wrapper component basically
+// A wrapper component in React is a component that acts as a container or
+// higher-order structure for other components, usually providing
+// additional functionality, styling, or behavior.

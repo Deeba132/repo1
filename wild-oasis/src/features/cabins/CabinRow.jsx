@@ -2,24 +2,26 @@
 import styled from "styled-components";
 import { formatCurrency } from "../../utils/helpers";
 
-import { useState } from "react";
 import CreateCabinForm from "./CreateCabinForm2";
 import useDelete from "../../hooks/useDelete";
 import { HiSquare2Stack } from "react-icons/hi2";
-
+import ConfirmDelete from "../../ui/ConfirmDelete";
 import { HiPencil, HiTrash } from "react-icons/hi";
 import useCreate from "../../hooks/useCreate";
-const TableRow = styled.div`
-  display: grid;
-  grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
-  column-gap: 2.4rem;
-  align-items: center;
-  padding: 1.4rem 2.4rem;
+import Modal from "../../ui/Modal";
+import Table from "../../ui/Table";
+import Menus from "../../ui/Menus";
+// const TableRow = styled.div`
+//   display: grid;
+//   grid-template-columns: 0.6fr 1.8fr 2.2fr 1fr 1fr 1fr;
+//   column-gap: 2.4rem;
+//   align-items: center;
+//   padding: 1.4rem 2.4rem;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid var(--color-grey-100);
-  }
-`;
+//   &:not(:last-child) {
+//     border-bottom: 1px solid var(--color-grey-100);
+//   }
+// `;
 
 const Img = styled.img`
   display: block;
@@ -52,7 +54,6 @@ const Discount = styled.div`
 
 // eslint-disable-next-line react/prop-types
 export default function CabinRow({ cabin }) {
-  const [editset, setedit] = useState(false);
   const { createMutate, createload } = useCreate();
   // eslint-disable-next-line react/prop-types
   const {
@@ -77,7 +78,7 @@ export default function CabinRow({ cabin }) {
   const { isdeleting, deleteCabin } = useDelete();
   return (
     <>
-      <TableRow role="row">
+      <Table.Row columns={"0.6fr 1.8fr 2.2fr 1fr 1fr 1fr"}>
         <Img src={image || "/fallback-image.jpg"} />
         <Cabin>{name}</Cabin>
         <div>fits in {max_capacity}</div>
@@ -89,18 +90,41 @@ export default function CabinRow({ cabin }) {
           <span>-</span>
         )}
         <div>
-          <button onClick={handleDuplicate} disabled={createload}>
-            <HiSquare2Stack />
-          </button>
-          <button onClick={() => setedit((show) => !show)}>
-            {<HiPencil />}
-          </button>
-          <button onClick={() => deleteCabin(cabinId)} disabled={isdeleting}>
-            {<HiTrash />}
-          </button>
+          <Modal>
+            <Menus.Menu>
+              <Menus.Toggle id={cabinId} />
+              <Menus.List id={cabinId}>
+                <Menus.Button
+                  icon={<HiSquare2Stack />}
+                  onClick={handleDuplicate}
+                  disabled={createload}
+                >
+                  Duplicate
+                </Menus.Button>
+                <Modal.Open name="edit">
+                  <Menus.Button icon={<HiPencil />}>Edit</Menus.Button>
+                </Modal.Open>
+                <Modal.Open opens="delete">
+                  <Menus.Button icon={<HiTrash />}>Delete</Menus.Button>
+                </Modal.Open>
+              </Menus.List>
+
+              <Modal.Window name="edit">
+                <CreateCabinForm cabinEdit={cabin} />
+              </Modal.Window>
+
+              {/* wrappercomponent */}
+              <Modal.Window opens="delete">
+                <ConfirmDelete
+                  resourceName="cabins"
+                  onConfirm={() => deleteCabin(cabinId)}
+                  disabled={isdeleting}
+                />
+              </Modal.Window>
+            </Menus.Menu>
+          </Modal>
         </div>
-      </TableRow>
-      {editset && <CreateCabinForm cabinEdit={cabin} />}
+      </Table.Row>
     </>
   );
 }

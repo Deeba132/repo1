@@ -2,7 +2,6 @@
 import Button from "../../ui/Button";
 import CreateCabinForm from "./CreateCabinForm2";
 import Modal from "../../ui/Modal";
-import CabinTable from "./CabinTable";
 
 export default function Addcabin() {
   return (
@@ -12,12 +11,6 @@ export default function Addcabin() {
       </Modal.Open>
       <Modal.Window name="cabin-form">
         <CreateCabinForm />
-      </Modal.Window>
-      <Modal.Open opens="table">
-        <Button>Add new cabin</Button>
-      </Modal.Open>
-      <Modal.Window name="table">
-        <CabinTable />
       </Modal.Window>
     </Modal>
   );
