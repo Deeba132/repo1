@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
 import {
@@ -115,9 +116,17 @@ function BookingDataBox({ booking }) {
     hasBreakfast,
     observations,
     isPaid,
-    guests: { fullName: guestName, email, country, countryFlag, nationalID },
-    cabins: { name: cabinName },
+    guests,
+    cabins,
   } = booking;
+
+  const guestName = guests?.fullName ?? "Unknown guest";
+  const email = guests?.email ?? "—";
+  const country = guests?.country ?? "—";
+  const countryFlag = guests?.countryFlag;
+  const nationalID = guests?.nationalID ?? "—";
+
+  const cabinName = cabins?.name ?? "Unknown cabin";
 
   return (
     <StyledBookingDataBox>

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 import { format, isToday } from "date-fns";
 import {
@@ -46,23 +47,25 @@ const Amount = styled.div`
   font-weight: 500;
 `;
 
-function BookingRow({
-  booking: {
-    id: bookingId,
-    created_at,
-    startDate,
-    endDate,
-    numNights,
-    numGuests,
-    totalPrice,
-    status,
-    guests: { fullName: guestName, email },
-    cabins: { name: cabinName },
-  },
-}) {
+function BookingRow({ booking }) {
   const navigate = useNavigate();
   const { checkout, isCheckingOut } = useCheckout();
   const { deleteBooking, isDeleting } = useDeleteBooking();
+  if (!booking) return null;
+  const {
+    id: bookingId,
+    startDate,
+    endDate,
+    numNights,
+    totalPrice,
+    status,
+    guests,
+    cabins,
+  } = booking;
+
+  const guestName = guests?.full_name ?? "Unknown Guest";
+  const email = guests?.email ?? "No Email";
+  const cabinName = cabins?.name ?? "Unknown Cabin";
 
   const statusToTagName = {
     unconfirmed: "blue",
@@ -81,18 +84,23 @@ function BookingRow({
 
       <Stacked>
         <span>
-          {isToday(new Date(startDate))
-            ? "Today"
-            : formatDistanceFromNow(startDate)}{" "}
+          {startDate
+            ? isToday(new Date(startDate))
+              ? "Today"
+              : formatDistanceFromNow(startDate)
+            : "Unknown date"}{" "}
           &rarr; {numNights} night stay
         </span>
+
         <span>
-          {format(new Date(startDate), "MMM dd yyyy")} &mdash;{" "}
-          {format(new Date(endDate), "MMM dd yyyy")}
+          {startDate ? format(new Date(startDate), "MMM dd yyyy") : "???"}{" "}
+          &mdash; {endDate ? format(new Date(endDate), "MMM dd yyyy") : "???"}
         </span>
       </Stacked>
 
-      <Tag type={statusToTagName[status]}>{status.replace("-", " ")}</Tag>
+      <Tag type={statusToTagName[status] || "grey"}>
+        {status ? status.replace("-", " ") : "Unknown status"}
+      </Tag>
 
       <Amount>{formatCurrency(totalPrice)}</Amount>
 

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useForm } from "react-hook-form";
 
 import Input from "../../ui/Input";
@@ -30,7 +31,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       editCabin(
         { newCabinData: { ...data, image }, id: editId },
         {
-          onSuccess: (data) => {
+          onSuccess: () => {
             reset();
             onCloseModal?.();
           },
@@ -40,7 +41,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       createCabin(
         { ...data, image: image },
         {
-          onSuccess: (data) => {
+          onSuccess: () => {
             reset();
             onCloseModal?.();
           },
@@ -49,7 +50,7 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
   }
 
   function onError(errors) {
-    // console.log(errors);
+    console.log(errors);
   }
 
   return (
@@ -71,9 +72,9 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       <FormRow label="Maximum capacity" error={errors?.maxCapacity?.message}>
         <Input
           type="number"
-          id="maxCapacity"
+          id="max_capacity"
           disabled={isWorking}
-          {...register("maxCapacity", {
+          {...register("max_capacity", {
             required: "This field is required",
             min: {
               value: 1,
@@ -86,9 +87,9 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
       <FormRow label="Regular price" error={errors?.regularPrice?.message}>
         <Input
           type="number"
-          id="regularPrice"
+          id="regular_price"
           disabled={isWorking}
-          {...register("regularPrice", {
+          {...register("regular_price", {
             required: "This field is required",
             min: {
               value: 1,
@@ -106,9 +107,13 @@ function CreateCabinForm({ cabinToEdit = {}, onCloseModal }) {
           defaultValue={0}
           {...register("discount", {
             required: "This field is required",
-            validate: (value) =>
-              value <= getValues().regularPrice ||
-              "Discount should be less than regular price",
+            validate: (value) => {
+              const regular = Number(getValues().regular_price);
+              return (
+                Number(value) <= regular ||
+                "Discount should be less than regular price"
+              );
+            },
           })}
         />
       </FormRow>

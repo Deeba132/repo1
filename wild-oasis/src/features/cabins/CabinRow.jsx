@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import styled from "styled-components";
 
 import CreateCabinForm from "./CreateCabinForm";
@@ -51,13 +52,13 @@ const Discount = styled.div`
 
 function CabinRow({ cabin }) {
   const { isDeleting, deleteCabin } = useDeleteCabin();
-  const { isCreating, createCabin } = useCreateCabin();
+  const { createCabin } = useCreateCabin();
 
   const {
     id: cabinId,
     name,
-    maxCapacity,
-    regularPrice,
+    max_capacity,
+    regular_price,
     discount,
     image,
     description,
@@ -66,8 +67,8 @@ function CabinRow({ cabin }) {
   function handleDuplicate() {
     createCabin({
       name: `Copy of ${name}`,
-      maxCapacity,
-      regularPrice,
+      max_capacity,
+      regular_price,
       discount,
       image,
       description,
@@ -78,8 +79,8 @@ function CabinRow({ cabin }) {
     <Table.Row>
       <Img src={image} />
       <Cabin>{name}</Cabin>
-      <div>Fits up to {maxCapacity} guests</div>
-      <Price>{formatCurrency(regularPrice)}</Price>
+      <div>Fits up to {max_capacity} guests</div>
+      <Price>{formatCurrency(regular_price)}</Price>
       {discount ? (
         <Discount>{formatCurrency(discount)}</Discount>
       ) : (

@@ -6,7 +6,7 @@ import Form from "../../ui/Form";
 import Button from "../../ui/Button";
 import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
-import FormRow from "../../ui/FormRow";
+import FormRow from "../../ui/FormRow2";
 
 import { useForm } from "react-hook-form";
 import { createCabin } from "../../services/apiCabins";
@@ -33,6 +33,7 @@ function CreateCabinForm() {
 
   function onError(errors) {
     // console.log(errors);
+    throw new Error(errors.message);
   }
 
   return (
