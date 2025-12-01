@@ -20,15 +20,15 @@ This project demonstrates complete CRUD functionality using Supabase REST API en
    Password: 123456
    }
 2. **Dashboard** displays sales data charts powered by Supabase.
-   <img src="wild-oasis/images-screenshot/Wild-Oasis and 5 more pages - Person 1 - Microsoft​ Edge 01-12-2025 14_30_07.png" alt=""/>
+   <img src="./wild-oasis/images-screenshot/2.png" alt=""/>
 3. **Bookings** tab shows all reservations fetched from Supabase.
-   <img src="wild-oasis/images-screenshot/Wild-Oasis and 5 more pages - Person 1 - Microsoft​ Edge 01-12-2025 14_29_56.png" alt=""/>
+   <img src="./wild-oasis/images-screenshot/1.png" alt=""/>
 4. **Cabins** tab allows uploading new cabins with images stored in Supabase Storage.
-   <img src="wild-oasis/images-screenshot/Wild-Oasis and 5 more pages - Person 1 - Microsoft​ Edge 01-12-2025 14_30_21.png" alt=""/>
+   <img src="./wild-oasis/images-screenshot/3.png" alt=""/>
 5. **User Management** lets you create new employees.
-   <img src="wild-oasis/images-screenshot/Wild-Oasis and 5 more pages - Person 1 - Microsoft​ Edge 01-12-2025 14_30_32.png" alt=""/>
+   <img src="./wild-oasis/images-screenshot/4.png" alt=""/>
 6. **Settings** tab allows updating hotel configuration.
-   ![Alt text](wild-oasis/images-screenshot/Wild-Oasis and 5 more pages - Person 1 - Microsoft​ Edge 01-12-2025 14_30_48.png)
+   <img src="./wild-oasis/images-screenshot/5.png" alt=""/>
 
 ## 🛠️ Tech Stack
 
