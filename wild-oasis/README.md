@@ -28,7 +28,7 @@ This project demonstrates complete CRUD functionality using Supabase REST API en
 5. **User Management** lets you create new employees.
    <img src="wild-oasis/images-screenshot/Wild-Oasis and 5 more pages - Person 1 - Microsoft​ Edge 01-12-2025 14_30_32.png" alt=""/>
 6. **Settings** tab allows updating hotel configuration.
-   [!ALt text](wild-oasis/images-screenshot/Wild-Oasis and 5 more pages - Person 1 - Microsoft​ Edge 01-12-2025 14_30_48.png)
+   ![Alt text](wild-oasis/images-screenshot/Wild-Oasis and 5 more pages - Person 1 - Microsoft​ Edge 01-12-2025 14_30_48.png)
 
 ## 🛠️ Tech Stack
 
