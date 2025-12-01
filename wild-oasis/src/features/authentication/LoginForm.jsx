@@ -34,6 +34,7 @@ function LoginForm() {
           // This makes this form better for password managers
           autoComplete="username"
           value={email}
+          placeholder={email}
           onChange={(e) => setEmail(e.target.value)}
           disabled={isLoading}
         />
@@ -45,6 +46,7 @@ function LoginForm() {
           id="password"
           autoComplete="current-password"
           value={password}
+          placeholder={password}
           onChange={(e) => setPassword(e.target.value)}
           disabled={isLoading}
         />
